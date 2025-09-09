@@ -1,11 +1,12 @@
 
 import NavBar from "./components/NavBar";
 import HeroSection from "./sections/HeroSection";
-import { ScrollSmoother } from "gsap/all";
+import { ScrollTrigger } from "gsap/all";
 import gsap from "gsap";
 import MessageSection from "./sections/MessageSection";
+import FlavorSection from "./sections/FlavorSection";
 
-gsap.registerPlugin(ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <NavBar />
       <HeroSection />
       <MessageSection />
+      <FlavorSection />
       <div className="h-dvh border-red-500" />
     </main>
   )
