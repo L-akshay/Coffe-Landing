@@ -1,36 +1,45 @@
+
 import { useGSAP } from "@gsap/react";
 import { flavorlists } from "../constants";
 import gsap from "gsap";
 import { useRef } from "react";
-import { useMediaQuery } from "react-responsive";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const FlavorSlider = () => {
     const sliderRef = useRef();
 
-    const isTablet = useMediaQuery({
-        query: "(max-width: 1024px)",
-    });
-
     useGSAP(() => {
-        const scrollAmount = sliderRef.current.scrollWidth - window.innerWidth;
+        ScrollTrigger.matchMedia({
+            // Desktop (horizontal scroll)
+            "(min-width: 1025px)": () => {
+                const scrollAmount =
+                    sliderRef.current.scrollWidth - window.innerWidth;
 
-        if (!isTablet) {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: ".flavor-section",
-                    start: "2% top",
-                    end: `+=${scrollAmount + 1500}px`,
-                    scrub: true,
-                    pin: true,
-                },
-            });
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: ".flavor-section",
+                        start: "2% top",
+                        end: `+=${scrollAmount + 1500}px`,
+                        scrub: true,
+                        pin: true,
+                    },
+                });
 
-            tl.to(".flavor-section", {
-                x: `-${scrollAmount + 1500}px`,
-                ease: "power1.inOut",
-            });
-        }
+                tl.to(".flavor-section", {
+                    x: `-${scrollAmount + 1500}px`,
+                    ease: "power1.inOut",
+                });
+            },
 
+            // Tablet & Mobile (no horizontal scroll)
+            "(max-width: 1024px)": () => {
+                gsap.set(".flavor-section", { clearProps: "all" });
+            },
+        });
+
+        // Title scroll animations (applies everywhere)
         const titleTl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".flavor-section",
