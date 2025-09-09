@@ -62,7 +62,7 @@ const HeroSection = () => {
     });
 
     return (
-        <section className="bg-main-bg">
+        <section className="bg-main-bg" id="hero">
             <div className="hero-container">
                 {isTablet ? (
                     <>
