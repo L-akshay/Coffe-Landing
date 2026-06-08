@@ -1,24 +1,27 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
+import { message } from "../constants/content";
+import SectionDivider from "../components/SectionDivider";
 
 const MessageSection = () => {
     useGSAP(() => {
+        // Japanese has no word spaces — split by character for a clean reveal.
         const firstMsgSplit = SplitText.create(".first-message", {
-            type: "words",
+            type: "chars",
         });
         const secMsgSplit = SplitText.create(".second-message", {
-            type: "words",
+            type: "chars",
         });
         const paragraphSplit = SplitText.create(".message-content p", {
-            type: "words, lines",
+            type: "chars, lines",
             linesClass: "paragraph-line",
         });
 
-        gsap.to(firstMsgSplit.words, {
+        gsap.to(firstMsgSplit.chars, {
             color: "#faeade",
             ease: "power1.in",
-            stagger: 1,
+            stagger: 0.05,
             scrollTrigger: {
                 trigger: ".message-content",
                 start: "top center",
@@ -26,10 +29,10 @@ const MessageSection = () => {
                 scrub: true,
             },
         });
-        gsap.to(secMsgSplit.words, {
+        gsap.to(secMsgSplit.chars, {
             color: "#faeade",
             ease: "power1.in",
-            stagger: 1,
+            stagger: 0.05,
             scrollTrigger: {
                 trigger: ".second-message",
                 start: "top center",
@@ -57,7 +60,7 @@ const MessageSection = () => {
                 start: "top center",
             },
         });
-        paragraphTl.from(paragraphSplit.words, {
+        paragraphTl.from(paragraphSplit.chars, {
             yPercent: 300,
             rotate: 3,
             ease: "power1.inOut",
@@ -68,10 +71,11 @@ const MessageSection = () => {
 
     return (
         <section className="message-content" id="message">
+            <SectionDivider mark={message.divider} className="absolute top-0 left-0" />
             <div className="container mx-auto flex-center py-28 relative">
                 <div className="w-full h-full">
                     <div className="msg-wrapper">
-                        <h1 className="first-message">Stir up your fearless past and</h1>
+                        <h1 className="first-message">{message.first}</h1>
 
                         <div
                             style={{
@@ -80,22 +84,16 @@ const MessageSection = () => {
                             className="msg-text-scroll"
                         >
                             <div className="bg-light-brown md:pb-5 pb-3 px-5">
-                                <h2 className="text-red-brown">Fuel Up</h2>
+                                <h2 className="text-red-brown">{message.highlight}</h2>
                             </div>
                         </div>
 
-                        <h1 className="second-message">
-                            your future with every gulp of Perfect Protein
-                        </h1>
+                        <h1 className="second-message">{message.second}</h1>
                     </div>
 
                     <div className="flex-center md:mt-20 mt-10">
                         <div className="max-w-md px-10 flex-center overflow-hidden">
-                            <p>
-                                Rev up your rebel spirit and feed the adventure of life with
-                                SPYLT, where you’re one chug away from epic nostalgia and
-                                fearless fun.
-                            </p>
+                            <p>{message.paragraph}</p>
                         </div>
                     </div>
                 </div>

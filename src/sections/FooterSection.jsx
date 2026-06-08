@@ -1,4 +1,7 @@
 import { useMediaQuery } from "react-responsive";
+import { footer, marquee } from "../constants/content";
+import VerticalText from "../components/VerticalText";
+import Marquee from "../components/Marquee";
 
 const FooterSection = () => {
     const isMobile = useMediaQuery({
@@ -10,19 +13,30 @@ const FooterSection = () => {
             <img
                 src="/images/footer-dip.png"
                 alt=""
+                aria-hidden="true"
                 className="w-full object-cover -translate-y-1"
             />
 
-            <div className="2xl:h-[110dvh] relative md:pt-[20vh] pt-[10vh]">
-                <div className="overflow-hidden z-10">
+            <Marquee items={marquee} />
+
+            <div className="2xl:min-h-[110dvh] relative md:pt-[20vh] pt-[10vh] flex flex-col">
+                {/* Rising-sun glow + vertical accent */}
+                <div className="rising-sun size-[40vw] top-[6vh] left-1/2 -translate-x-1/2" />
+                <VerticalText
+                    text={footer.vertical}
+                    className="hidden md:block absolute right-8 top-24 text-[#e63946]/70 text-2xl z-10"
+                />
+
+                <div className="overflow-hidden z-10 relative">
                     <h1 className="general-title text-center text-milk py-5">
-                        #CHUGRESPONSIBLY
+                        {footer.hashtag}
                     </h1>
                 </div>
 
                 {isMobile ? (
                     <img
                         src="/images/footer-drink.png"
+                        alt="SPYLTのドリンク"
                         className="absolute top-0 object-contain"
                     />
                 ) : (
@@ -31,63 +45,66 @@ const FooterSection = () => {
                         autoPlay
                         playsInline
                         muted
+                        aria-hidden="true"
                         className="absolute top-0 object-contain mix-blend-lighten"
                     />
                 )}
 
                 <div className="flex-center gap-5 relative z-10 md:mt-20 mt-5">
-                    <div className="social-btn">
-                        <img src="./images/yt.svg" alt="" />
-                    </div>
-                    <div className="social-btn">
-                        <img src="./images/insta.svg" alt="" />
-                    </div>
-                    <div className="social-btn">
-                        <img src="./images/tiktok.svg" alt="" />
-                    </div>
+                    {footer.social.map((item) => (
+                        <a
+                            key={item.label}
+                            href="#"
+                            className="social-btn"
+                            aria-label={item.label}
+                        >
+                            <img src={item.src} alt="" aria-hidden="true" />
+                        </a>
+                    ))}
                 </div>
 
-                <div className="mt-40 md:px-10 px-5 flex gap-10 md:flex-row flex-col justify-between text-milk font-paragraph md:text-lg font-medium">
-                    <div className="flex items-center md:gap-16 gap-5">
-                        <div>
-                            <p>SPYLT Flavors</p>
-                        </div>
-                        <div>
-                            <p>Chug Club</p>
-                            <p>Student Marketing</p>
-                            <p>Dairy Dealers</p>
-                        </div>
-                        <div>
-                            <p>Company</p>
-                            <p>Contacts</p>
-                            <p>Tasty Talk</p>
-                        </div>
+                <div className="md:mt-40 mt-24 md:px-10 px-5 flex gap-10 md:flex-row flex-col justify-between text-milk font-paragraph md:text-lg font-medium">
+                    <div className="flex items-start md:gap-16 gap-5">
+                        {footer.columns.map((col, i) => (
+                            <div key={i}>
+                                {col.map((line) => (
+                                    <p key={line}>{line}</p>
+                                ))}
+                            </div>
+                        ))}
                     </div>
 
                     <div className="md:max-w-lg">
-                        <p>
-                            Get Exclusive Early Access and Stay Informed About Product
-                            Updates, Events, and More!
-                        </p>
+                        <p>{footer.newsletter}</p>
                         <div className="flex justify-between items-center border-b border-[#D9D9D9] py-5 md:mt-10">
-                            {/* The input field and arrow icon for newsletter signup. */}{" "}
-                            {/* A border at the bottom for a clean, modern look. */}
+                            <label htmlFor="footer-email" className="sr-only">
+                                {footer.emailAria}
+                            </label>
                             <input
+                                id="footer-email"
                                 type="email"
-                                placeholder="Enter your email"
-                                className="w-full placeholder:font-sans placeholder:text-[#999999]"
+                                placeholder={footer.emailPlaceholder}
+                                className="w-full placeholder:font-paragraph placeholder:text-[#999999]"
                             />
-                            <img src="/images/arrow.svg" alt="arrow" />
+                            <button type="submit" aria-label={footer.submitAria}>
+                                <img src="/images/arrow.svg" alt="" aria-hidden="true" />
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div className="copyright-box">
-                    {/* The final row with copyright and legal links. */}
-                    <p>Copyright © 2025 Spylt - All Rights Reserved</p>
+                    <p>{footer.copyright}</p>
                     <div className="flex items-center gap-7">
-                        <p>Privacy Policy</p>
-                        <p>Terms of Sеrvice</p>
+                        {footer.legal.map((item) => (
+                            <a
+                                key={item.href}
+                                href={item.href}
+                                className="legal-link"
+                            >
+                                {item.label}
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>

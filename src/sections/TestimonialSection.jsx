@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { cards } from "../constants";
+import { testimonials } from "../constants/content";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -68,16 +69,16 @@ const TestimonialSection = () => {
     return (
         <section className="testimonials-section" id="testimonials">
             <div className="absolute size-full flex flex-col items-center pt-[5vw]">
-                <h1 className="text-black first-title">What's</h1>
-                <h1 className="text-light-brown sec-title">Everyone</h1>
-                <h1 className="text-black third-title">Talking</h1>
+                <h1 className="text-[#e63946] first-title">{testimonials.lines[0]}</h1>
+                <h1 className="text-[#a855f7] sec-title">{testimonials.lines[1]}</h1>
+                <h1 className="text-[#f8bbd0] third-title">{testimonials.lines[2]}</h1>
             </div>
 
             <div className="pin-box">
                 {cards.map((card, index) => (
                     <div
                         key={index}
-                        className={`vd-card ${card.translation} ${card.rotation}`}
+                        className={`vd-card holo-hover ${card.translation} ${card.rotation}`}
                         onMouseEnter={() => handlePlay(index)}
                         onMouseLeave={() => handlePause(index)}
                     >
@@ -87,6 +88,7 @@ const TestimonialSection = () => {
                             playsInline
                             muted
                             loop
+                            aria-label={testimonials.cardAria(card.name)}
                             className="size-full object-cover"
                         />
                     </div>

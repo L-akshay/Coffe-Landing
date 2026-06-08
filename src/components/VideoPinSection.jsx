@@ -1,6 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useMediaQuery } from "react-responsive";
+import { benefits } from "../constants/content";
 
 const VideoPinSection = () => {
     const isMobile = useMediaQuery({
@@ -36,17 +37,34 @@ const VideoPinSection = () => {
                 }}
                 className="size-full video-box"
             >
-                <video src="/videos/pin-video.mp4" playsInline muted loop autoPlay />
+                <video
+                    src="/videos/pin-video.mp4"
+                    playsInline
+                    muted
+                    loop
+                    autoPlay
+                    aria-hidden="true"
+                />
 
                 <div className="abs-center md:scale-100 scale-200">
-                    <img src="/images/circle-text.svg" alt="" className="spin-circle" />
-                    <div className="play-btn">
+                    <img
+                        src="/images/circle-text.svg"
+                        alt=""
+                        aria-hidden="true"
+                        className="spin-circle"
+                    />
+                    <button
+                        type="button"
+                        className="play-btn"
+                        aria-label={benefits.playAria}
+                    >
                         <img
                             src="/images/play.svg"
                             alt=""
+                            aria-hidden="true"
                             className="size-[3vw] ml-[.5vw]"
                         />
-                    </div>
+                    </button>
                 </div>
             </div>
         </section>

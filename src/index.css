@@ -1,25 +1,47 @@
 @import url("https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap");
 @import "tailwindcss";
+@import "./styles/theme.css";
 
 @font-face {
   font-family: "ProximaNova, sans-serif";
   src: url("/fonts/ProximaNova-Regular.otf");
 }
 
+/* =====================================================================
+   Tailwind theme tokens — Neo Japan Digital Atelier palette.
+   Legacy token NAMES are kept (so existing utility classes keep working)
+   but remapped to the new ink/neon values. Dual-use background cases are
+   handled per-rule below.
+   ===================================================================== */
 @theme {
-  --color-black: #222123;
-  --color-main-bg: #232224;
+  --color-black: #050507;
+  --color-main-bg: #050507;
   --color-white: #ffffff;
-  --color-dark-brown: #523122;
-  --color-mid-brown: #a26833;
-  --color-light-brown: #e3a458;
-  --color-red-brown: #7f3b2d;
-  --color-yellow-brown: #a26833;
-  --color-milk-yellow: #e3d3bc;
-  --color-red: #a02128;
-  --color-milk: #faeade;
-  --font-sans: "Antonio", sans-serif;
-  --font-paragraph: "ProximaNova, sans-serif";
+
+  /* remapped legacy names -> new palette roles */
+  --color-dark-brown: #f5f2ea; /* was dark text on light; now light text */
+  --color-mid-brown: #a855f7; /* accent blocks -> electric violet */
+  --color-light-brown: #e63946; /* highlight blocks/buttons -> crimson */
+  --color-red-brown: #050507; /* text on crimson -> ink */
+  --color-yellow-brown: #d6a84f; /* -> gold */
+  --color-milk-yellow: #050507; /* text on gold -> ink */
+  --color-red: #e63946;
+  --color-milk: #f5f2ea; /* light text / paper white */
+
+  /* canonical Neo-Japan palette */
+  --color-ink: #050507;
+  --color-ink-soft: #0b0b10;
+  --color-crimson: #e63946;
+  --color-violet: #a855f7;
+  --color-sakura: #f8bbd0;
+  --color-gold: #d6a84f;
+  --color-paper: #f5f2ea;
+  --color-muted: #9ca3af;
+
+  --font-sans: "Antonio", "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  --font-paragraph: "Noto Sans JP", "Zen Kaku Gothic New", sans-serif;
+  --font-jp-sans: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  --font-jp-serif: "Shippori Mincho", "Noto Serif JP", serif;
 }
 
 html,
@@ -27,9 +49,11 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #faeade;
-  color: #523122;
-  font-family: "Antonio", sans-serif;
+  background-color: #050507;
+  color: #f5f2ea;
+  /* Antonio drives the Latin display metrics (unchanged); Japanese glyphs,
+     which Antonio lacks, fall back per-character to the JP gothic faces. */
+  font-family: "Antonio", "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
   overflow-x: hidden;
   scroll-behavior: smooth;
   scrollbar-width: none; /* Firefox */
@@ -61,54 +85,62 @@ body::-webkit-scrollbar {
   }
 
   .hero-container {
-    @apply relative bg-milk w-screen h-dvh overflow-hidden;
+    @apply relative bg-[#050507] w-screen h-dvh overflow-hidden;
 
     .hero-content {
       @apply relative z-10 w-full h-full flex flex-col 2xl:justify-center items-center translate-y-10 2xl:pt-0 md:pt-32 pt-24;
 
       .hero-title {
-        @apply text-dark-brown 2xl:text-[8.5rem] md:text-[6.5rem] text-[3.3rem] font-bold uppercase leading-[9vw] tracking-[-.35vw] 2xl:mb-0 mb-5;
+        @apply text-[#f5f2ea] 2xl:text-[8.5rem] md:text-[6.5rem] text-[3.3rem] font-bold uppercase leading-[9vw] tracking-[-.35vw] 2xl:mb-0 mb-5;
+        text-shadow: 0 0 34px rgba(230, 57, 70, 0.3);
       }
 
       .hero-text-scroll {
-        @apply rotate-[-3deg] mb-8 border-[.5vw] border-milk;
+        @apply rotate-[-3deg] mb-8 border-[.5vw] border-[#e63946];
+        box-shadow: var(--glow-crimson);
 
         .hero-subtitle {
-          @apply bg-mid-brown;
+          @apply bg-[#a855f7];
         }
 
         h1 {
-          @apply uppercase 2xl:text-[8.5rem] md:text-[6.5rem] text-[3.3rem] font-bold text-[#fce1cd] leading-[9vw] tracking-[-.35vw] 2xl:px-[1.2vw] px-3 2xl:pb-[1vw] pb-5 2xl:py-0 py-3;
+          @apply uppercase 2xl:text-[8.5rem] md:text-[6.5rem] text-[3.3rem] font-bold text-[#f5f2ea] leading-[9vw] tracking-[-.35vw] 2xl:px-[1.2vw] px-3 2xl:pb-[1vw] pb-5 2xl:py-0 py-3;
         }
       }
 
       h2 {
-        @apply font-paragraph text-dark-brown text-center md:max-w-lg max-w-sm px-5 md:text-lg leading-[115%] mt-3;
+        @apply font-paragraph text-[#9ca3af] text-center md:max-w-lg max-w-sm px-5 md:text-lg leading-[160%] mt-3;
       }
 
       .hero-button {
-        @apply md:mt-16 mt-10 text-dark-brown bg-light-brown uppercase font-bold text-lg rounded-full md:p-5 p-3 md:px-16 px-10;
+        @apply md:mt-16 mt-10 text-[#050507] bg-[#e63946] uppercase font-bold text-lg rounded-full md:p-5 p-3 md:px-16 px-10;
+        box-shadow: var(--glow-crimson);
+        transition: transform 0.4s var(--ease-zen), box-shadow 0.4s ease;
+      }
+      .hero-button:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 0 40px rgba(230, 57, 70, 0.7);
       }
     }
   }
 
   .message-content {
-    @apply bg-[#7f3b2d] text-milk min-h-dvh overflow-hidden flex justify-center items-center relative z-20;
+    @apply bg-[#0b0b10] text-[#f5f2ea] min-h-dvh overflow-hidden flex justify-center items-center relative z-20;
 
     .msg-wrapper {
       @apply 2xl:text-[8.5rem] md:text-8xl text-5xl font-bold uppercase leading-[9vw] tracking-[-.35vw] flex flex-col justify-center items-center md:gap-24 gap-14;
 
       h1:first-of-type {
-        @apply 2xl:max-w-4xl md:max-w-2xl max-w-xs text-center  text-[#faeade10];
+        @apply 2xl:max-w-4xl md:max-w-2xl max-w-xs text-center text-[#f5f2ea1a];
       }
 
       h1:last-of-type {
-        @apply 2xl:max-w-7xl md:max-w-4xl max-w-xs text-center  text-[#faeade10];
+        @apply 2xl:max-w-7xl md:max-w-4xl max-w-xs text-center text-[#f5f2ea1a];
       }
     }
 
     p {
-      @apply text-center font-paragraph;
+      @apply text-center font-paragraph text-[#9ca3af];
     }
 
     h1,
@@ -117,19 +149,21 @@ body::-webkit-scrollbar {
     }
 
     .msg-text-scroll {
-      @apply rotate-[3deg] 2xl:translate-y-5 -translate-y-5 absolute z-10 border-[.5vw] border-[#7f3b2d];
+      @apply rotate-[3deg] 2xl:translate-y-5 -translate-y-5 absolute z-10 border-[.5vw] border-[#e63946];
+      box-shadow: var(--glow-crimson);
     }
   }
 
   .flavor-section {
-    @apply min-h-dvh bg-milk;
+    @apply min-h-dvh bg-[#050507];
 
     .flavor-text-scroll {
-      @apply rotate-[-3deg] md:translate-y-5 border-[.5vw] border-milk absolute z-10;
+      @apply rotate-[-3deg] md:translate-y-5 border-[.5vw] border-[#a855f7] absolute z-10;
+      box-shadow: var(--glow-violet);
     }
 
     .first-text-split h1 {
-      @apply md:text-center text-dark-brown;
+      @apply md:text-center text-[#f5f2ea];
     }
 
     .second-text-split h1 {
@@ -151,7 +185,7 @@ body::-webkit-scrollbar {
         }
 
         h1 {
-          @apply absolute md:bottom-10 md:left-10 bottom-5 left-5 text-milk md:text-6xl text-3xl font-semibold uppercase tracking-tighter;
+          @apply absolute md:bottom-10 md:left-10 bottom-5 left-5 text-[#f5f2ea] md:text-6xl text-3xl font-semibold uppercase tracking-tighter;
         }
       }
     }
@@ -165,35 +199,38 @@ body::-webkit-scrollbar {
     }
 
     .nutrition-title {
-      @apply 2xl:max-w-4xl xl:max-w-2xl md:py-0 py-3 md:pb-5 pb-0 lg:pb-0 md:text-center text-[#513022];
+      @apply 2xl:max-w-4xl xl:max-w-2xl md:py-0 py-3 md:pb-5 pb-0 lg:pb-0 md:text-center text-[#f5f2ea];
     }
 
     .nutrition-text-scroll {
-      @apply rotate-[-3deg] border-[.5vw] border-[#e3d3bc] text-nowrap opacity-0 md:-mt-32 -mt-24;
+      @apply rotate-[-3deg] border-[.5vw] border-[#d6a84f] text-nowrap opacity-0 md:-mt-32 -mt-24;
+      box-shadow: 0 0 24px rgba(214, 168, 79, 0.35);
     }
 
     .nutrition-box {
       @apply absolute md:bottom-16 bottom-5 w-full md:px-0 px-5;
 
       .list-wrapper {
-        @apply bg-[#fdebd2] rounded-full border-[.5vw] border-[#e8ddca] mx-auto max-w-7xl md:py-8 py-5 md:px-0 px-5 flex justify-between items-center;
+        @apply rounded-full border-[.5vw] border-[rgba(245,242,234,0.14)] mx-auto max-w-7xl md:py-8 py-5 md:px-0 px-5 flex justify-between items-center;
+        background: rgba(245, 242, 234, 0.04);
+        backdrop-filter: blur(14px);
 
         p {
-          @apply text-[#865720];
+          @apply text-[#d6a84f];
         }
       }
 
       .spacer-border {
-        @apply absolute right-0 top-1/2 transform -translate-y-1/2 md:h-24 h-16 w-px bg-[#C89C6E];
+        @apply absolute right-0 top-1/2 transform -translate-y-1/2 md:h-24 h-16 w-px bg-[rgba(245,242,234,0.18)];
       }
     }
   }
 
   .benefit-section {
-    @apply min-h-dvh bg-[#222123] overflow-hidden relative;
+    @apply min-h-dvh bg-[#050507] overflow-hidden relative;
 
     p {
-      @apply text-milk font-paragraph text-center text-lg;
+      @apply text-[#f5f2ea] font-paragraph text-center text-lg;
     }
 
     .first-title {
@@ -221,6 +258,7 @@ body::-webkit-scrollbar {
 
       .play-btn {
         @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[9vw] flex justify-center items-center bg-[#ffffff1a] backdrop-blur-xl rounded-full;
+        border: 1px solid var(--glass-border);
       }
 
       img:first-of-type {
@@ -230,13 +268,14 @@ body::-webkit-scrollbar {
   }
 
   .testimonials-section {
-    @apply bg-milk relative w-full h-[120dvh];
+    @apply bg-[#050507] relative w-full h-[120dvh];
 
     .pin-box {
       @apply flex items-center justify-center w-full ps-52 absolute 2xl:bottom-32 bottom-[50vh];
 
       .vd-card {
-        @apply md:w-96 w-80 flex-none md:rounded-[2vw] rounded-3xl -ms-44 overflow-hidden 2xl:relative absolute border-[.5vw] border-milk;
+        @apply md:w-96 w-80 flex-none md:rounded-[2vw] rounded-3xl -ms-44 overflow-hidden 2xl:relative absolute border-[.5vw] border-[#a855f7];
+        box-shadow: var(--glow-violet);
       }
     }
 
@@ -246,18 +285,18 @@ body::-webkit-scrollbar {
   }
 
   .footer-section {
-    @apply 2xl:min-h-dvh overflow-hidden relative bg-[#222123];
+    @apply 2xl:min-h-dvh overflow-hidden relative bg-[#050507];
 
     .social-btn {
-      @apply border border-[#faeade33] md:size-[5vw] size-14 md:p-0 p-3 flex justify-center items-center rounded-full hover:bg-[#ffffff1a] transition-colors cursor-pointer;
+      @apply border border-[rgba(245,242,234,0.2)] md:size-[5vw] size-14 md:p-0 p-3 flex justify-center items-center rounded-full hover:bg-[#ffffff1a] transition-colors cursor-pointer;
     }
 
     input {
-      @apply 2xl:text-4xl text-3xl placeholder:font-bold placeholder:tracking-tighter;
+      @apply 2xl:text-4xl text-3xl text-[#f5f2ea] placeholder:font-bold placeholder:tracking-tighter placeholder:text-[#9ca3af];
     }
 
     .copyright-box {
-      @apply 2xl:absolute w-full md:px-10 px-5 py-7 bottom-0 text-milk opacity-50 md:text-lg font-paragraph flex gap-7 md:flex-row flex-col-reverse md:justify-between justify-center items-center;
+      @apply 2xl:mt-auto w-full md:px-10 px-5 py-7 md:pt-16 text-[#f5f2ea] opacity-50 md:text-lg font-paragraph flex gap-7 md:flex-row flex-col-reverse md:justify-between justify-center items-center;
 
       p {
         @apply text-center;
@@ -266,9 +305,10 @@ body::-webkit-scrollbar {
   }
 }
 
+/* Dark ink wash behind the nutrition section (replaces cream gradient). */
 .nutrition-section {
-  background-color: #faeade00;
-  background-image: radial-gradient(circle, #f3ece2, #dcccb0);
+  background-color: #050507;
+  background-image: radial-gradient(circle at 50% 25%, #14121d 0%, #050507 62%);
 }
 
 .spin-circle {
@@ -280,5 +320,450 @@ body::-webkit-scrollbar {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* =====================================================================
+   Neo Japan decorative layer
+   ===================================================================== */
+
+@layer utilities {
+  /* Vertical Japanese text accent (tate-gaki). */
+  .vertical-jp {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-family: var(--font-jp-serif);
+    letter-spacing: 0.25em;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .font-jp-serif {
+    font-family: var(--font-jp-serif);
+  }
+  .font-jp-sans {
+    font-family: var(--font-jp-sans);
+  }
+
+  /* Neon-sign style glowing text. */
+  .neon-text {
+    color: var(--color-crimson);
+    text-shadow:
+      0 0 4px rgba(230, 57, 70, 0.85),
+      0 0 14px rgba(230, 57, 70, 0.5),
+      0 0 30px rgba(168, 85, 247, 0.3);
+  }
+  .neon-text--violet {
+    color: var(--color-violet);
+    text-shadow:
+      0 0 4px rgba(168, 85, 247, 0.85),
+      0 0 16px rgba(168, 85, 247, 0.5);
+  }
+  .neon-text--sakura {
+    color: var(--color-sakura);
+    text-shadow: 0 0 16px rgba(248, 187, 208, 0.6);
+  }
+}
+
+/* Glassmorphism panel (project / content cards). */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px) saturate(1.1);
+  border-radius: 1.25rem;
+}
+
+/* Japanese seal / stamp logo mark. */
+.seal-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid var(--crimson);
+  border-radius: 0.5rem;
+  color: var(--crimson);
+  font-family: var(--font-jp-serif);
+  font-weight: 700;
+  letter-spacing: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 0.9rem;
+  line-height: 1;
+  box-shadow: inset 0 0 0 1px rgba(230, 57, 70, 0.3), var(--glow-crimson);
+}
+
+/* Japanese section divider: a thin neon rule flanking a vertical kanji. */
+.jp-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 2.5rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+.jp-divider::before,
+.jp-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1 1 auto;
+  max-width: 22vw;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--crimson) 75%, transparent),
+    transparent
+  );
+}
+.jp-divider__mark {
+  font-family: var(--font-jp-serif);
+  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+  letter-spacing: 0.4em;
+  color: var(--crimson);
+  text-shadow: var(--glow-crimson);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* Red-sun gradient backdrop accent. */
+.rising-sun {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgba(230, 57, 70, 0.55) 0%,
+    rgba(168, 85, 247, 0.12) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(6px);
+}
+
+/* Holographic glass panel hover (neon edge + lift). */
+.holo-hover {
+  transition:
+    transform 0.4s var(--ease-zen),
+    box-shadow 0.4s ease,
+    filter 0.4s ease;
+}
+.holo-hover:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.6),
+    0 0 28px rgba(230, 57, 70, 0.35);
+  filter: saturate(1.15);
+}
+
+/* Katakana marquee strip. */
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding: 0.6rem 0;
+  position: relative;
+  z-index: 10;
+}
+.marquee__track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee-scroll 28s linear infinite;
+}
+.marquee__track span {
+  font-family: var(--font-jp-sans);
+  letter-spacing: 0.4em;
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 0 1.5rem;
+  text-transform: uppercase;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =====================================================================
+   Full-screen fixed overlays (paper grain, sakura, cursor glow).
+   All are pointer-events:none so they NEVER intercept interaction, and
+   are intentionally rendered in front as subtle atmospheric layers.
+   ===================================================================== */
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.sakura-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 55;
+  opacity: 0.7;
+}
+
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 480px;
+  height: 480px;
+  margin: -240px 0 0 -240px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 70;
+  background: radial-gradient(
+    circle,
+    rgba(230, 57, 70, 0.16) 0%,
+    rgba(168, 85, 247, 0.08) 35%,
+    transparent 68%
+  );
+  mix-blend-mode: screen;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+  transition: opacity 0.3s ease;
+}
+
+/* =====================================================================
+   Navigation (Japanese)
+   ===================================================================== */
+.jp-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem clamp(1rem, 4vw, 2.5rem);
+}
+.jp-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+.jp-nav__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 2.25rem);
+}
+.jp-nav__link {
+  font-family: var(--font-jp-sans);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: #f5f2ea;
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.3s ease;
+}
+.jp-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--crimson), var(--violet));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease-zen);
+}
+.jp-nav__link:hover {
+  color: var(--crimson);
+}
+.jp-nav__link:hover::after {
+  transform: scaleX(1);
+}
+.jp-nav__en {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+}
+
+/* =====================================================================
+   Footer legal links
+   ===================================================================== */
+.legal-link {
+  position: relative;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+.legal-link:hover {
+  color: var(--crimson);
+  opacity: 1;
+}
+
+/* =====================================================================
+   Legal document pages (利用規約 / プライバシーポリシー)
+   ===================================================================== */
+.legal-page {
+  position: relative;
+  min-height: 100dvh;
+  background: radial-gradient(circle at 50% 0%, #14121d 0%, #050507 60%);
+  color: #f5f2ea;
+  overflow-x: hidden;
+}
+
+.legal-page__bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem clamp(1.25rem, 5vw, 3rem);
+  border-bottom: 1px solid var(--hairline);
+}
+.legal-page__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+.legal-page__brand-name {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  font-size: 1.1rem;
+}
+.legal-page__back {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #f5f2ea;
+  font-family: var(--font-jp-sans);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  transition: color 0.3s ease;
+}
+.legal-page__back:hover {
+  color: var(--crimson);
+}
+.legal-page__back-en {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+}
+
+.legal-page__doc {
+  position: relative;
+  z-index: 10;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 2rem)
+    clamp(4rem, 10vw, 7rem);
+}
+.legal-page__eyebrow {
+  font-family: var(--font-sans);
+  letter-spacing: 0.4em;
+  font-size: 0.7rem;
+  color: var(--crimson);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.legal-page__title {
+  font-family: var(--font-jp-serif);
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+}
+.legal-page__updated {
+  margin-top: 1rem;
+  font-family: var(--font-jp-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.legal-page__intro {
+  margin-top: 2rem;
+  font-family: var(--font-paragraph);
+  font-size: 1rem;
+  line-height: 2;
+  color: #cfcabb;
+}
+.legal-page__sections {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.legal-page__heading {
+  font-family: var(--font-jp-sans);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #f5f2ea;
+  padding-left: 1rem;
+  border-left: 3px solid var(--crimson);
+}
+.legal-page__body {
+  margin-top: 1rem;
+  font-family: var(--font-paragraph);
+  font-size: 0.95rem;
+  line-height: 2;
+  color: #b7b2a6;
+}
+.legal-page__cta {
+  margin-top: 4rem;
+  display: inline-block;
+  padding: 0.9rem 2.75rem;
+  border-radius: 9999px;
+  background: var(--crimson);
+  color: #050507;
+  font-family: var(--font-jp-sans);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--glow-crimson);
+  transition: transform 0.3s var(--ease-zen), box-shadow 0.3s ease;
+}
+.legal-page__cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 40px rgba(230, 57, 70, 0.7);
+}
+
+/* =====================================================================
+   Accessibility — reduced motion
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sakura-canvas,
+  .cursor-glow {
+    display: none;
   }
 }

@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import ClipPathTitle from "../components/ClipPathTitle";
 import gsap from "gsap";
 import VideoPinSection from "../components/VideoPinSection";
+import { benefits } from "../constants/content";
 
 const BenefitSection = () => {
     useGSAP(() => {
@@ -46,44 +47,41 @@ const BenefitSection = () => {
         <section className="benefit-section" id="benefits">
             <div className="container mx-auto pt-20">
                 <div className="col-center">
-                    <p>
-                        Unlock the Advantages: <br />
-                        Explore the Key Benefits of Choosing SPYLT
-                    </p>
+                    <p className="whitespace-pre-line">{benefits.heading}</p>
 
                     <div className="mt-20 col-center">
                         <ClipPathTitle
-                            title={"Shelf stable"}
-                            color={"#faeade"}
-                            bg={"#c88e64"}
+                            title={benefits.titles[0]}
+                            color={"#050507"}
+                            bg={"#E63946"}
                             className={"first-title"}
-                            borderColor={"#222123"}
+                            borderColor={"#E63946"}
                         />
                         <ClipPathTitle
-                            title={"Protein + Caffeine"}
-                            color={"#222123"}
-                            bg={"#faeade"}
+                            title={benefits.titles[1]}
+                            color={"#050507"}
+                            bg={"#A855F7"}
                             className={"second-title"}
-                            borderColor={"#222123"}
+                            borderColor={"#A855F7"}
                         />
                         <ClipPathTitle
-                            title={"Infinitely recyclable"}
-                            color={"#faeade"}
-                            bg={"#7F3B2D"}
+                            title={benefits.titles[2]}
+                            color={"#050507"}
+                            bg={"#F8BBD0"}
                             className={"third-title"}
-                            borderColor={"#222123"}
+                            borderColor={"#F8BBD0"}
                         />
                         <ClipPathTitle
-                            title={"Lactose free"}
-                            color={"#2E2D2F"}
-                            bg={"#FED775"}
+                            title={benefits.titles[3]}
+                            color={"#050507"}
+                            bg={"#D6A84F"}
                             className={"fourth-title"}
-                            borderColor={"#222123"}
+                            borderColor={"#D6A84F"}
                         />
                     </div>
 
                     <div className="md:mt-0 mt-10">
-                        <p>And much more ...</p>
+                        <p>{benefits.more}</p>
                     </div>
                 </div>
             </div>

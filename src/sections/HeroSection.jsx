@@ -2,6 +2,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
 import { useMediaQuery } from "react-responsive";
+import { hero } from "../constants/content";
+import VerticalText from "../components/VerticalText";
 
 const HeroSection = () => {
     const isMobile = useMediaQuery({
@@ -64,16 +66,25 @@ const HeroSection = () => {
     return (
         <section className="bg-main-bg" id="hero">
             <div className="hero-container">
+                {/* Rising-sun glow + vertical kanji accent (decorative) */}
+                <div className="rising-sun size-[60vw] -top-[20vw] left-1/2 -translate-x-1/2" />
+                <VerticalText
+                    text={hero.vertical}
+                    className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 z-20 text-dark-brown/70 text-2xl"
+                />
+
                 {isTablet ? (
                     <>
                         {isMobile && (
                             <img
                                 src="/images/hero-bg.png"
+                                alt="ネオンに照らされたSPYLTの背景"
                                 className="absolute bottom-40 size-full object-cover"
                             />
                         )}
                         <img
                             src="/images/hero-img.png"
+                            alt="SPYLTのプロテインミルク"
                             className="absolute bottom-0 left-1/2 -translate-x-1/2 object-auto"
                         />
                     </>
@@ -83,12 +94,13 @@ const HeroSection = () => {
                         autoPlay
                         muted
                         playsInline
+                        aria-hidden="true"
                         className="absolute inset-0 w-full h-full object-cover"
                     />
                 )}
                 <div className="hero-content opacity-0">
                     <div className="overflow-hidden">
-                        <h1 className="hero-title">Freaking Delicious</h1>
+                        <h1 className="hero-title">{hero.title}</h1>
                     </div>
                     <div
                         style={{
@@ -97,18 +109,19 @@ const HeroSection = () => {
                         className="hero-text-scroll"
                     >
                         <div className="hero-subtitle">
-                            <h1>Protein + Caffine </h1>
+                            <h1>{hero.subtitle}</h1>
                         </div>
                     </div>
 
-                    <h2>
-                        Live life to the fullest  with SPYLT: Shatter boredom and embrace
-                        your inner kid with every deliciously smooth chug.
-                    </h2>
+                    <h2>{hero.description}</h2>
 
-                    <div className="hero-button">
-                        <p>Chug a SPYLT</p>
-                    </div>
+                    <button
+                        type="button"
+                        className="hero-button"
+                        aria-label={hero.buttonAria}
+                    >
+                        <p>{hero.button}</p>
+                    </button>
                 </div>
             </div>
         </section>

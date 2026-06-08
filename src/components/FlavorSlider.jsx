@@ -83,22 +83,29 @@ const FlavorSlider = () => {
                         <img
                             src={`/images/${flavor.color}-bg.svg`}
                             alt=""
+                            aria-hidden="true"
                             className="absolute bottom-0"
                         />
 
                         <img
                             src={`/images/${flavor.color}-drink.webp`}
-                            alt=""
+                            alt={`SPYLT ${flavor.name}`}
                             className="drinks"
                         />
 
                         <img
                             src={`/images/${flavor.color}-elements.webp`}
                             alt=""
+                            aria-hidden="true"
                             className="elements"
                         />
 
-                        <h1>{flavor.name}</h1>
+                        <div className="absolute md:bottom-10 md:left-10 bottom-5 left-5 z-10">
+                            <h1 className="!static">{flavor.name}</h1>
+                            <p className="font-jp-sans text-milk/80 md:text-lg text-sm mt-1 tracking-wide">
+                                {flavor.desc}
+                            </p>
+                        </div>
                     </div>
                 ))}
             </div>

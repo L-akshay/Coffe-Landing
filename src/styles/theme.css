@@ -1,0 +1,43 @@
+/* =====================================================================
+   Neo Japan Digital Atelier — design tokens
+   Single source of truth for the non-Tailwind design layer:
+   palette, spacing rhythm, typography and effect variables.
+
+   (The same palette is mirrored into Tailwind's `@theme` in index.css so
+   utility classes like `text-crimson` resolve; values must stay in sync.)
+   ===================================================================== */
+
+:root {
+  /* ---- Palette ---------------------------------------------------- */
+  --ink-900: #050507; /* deep ink black base */
+  --ink-800: #0b0b10; /* raised panel */
+  --ink-700: #14121d; /* glass tint */
+  --crimson: #e63946; /* primary — neon crimson */
+  --violet: #a855f7; /* secondary — electric violet */
+  --sakura: #f8bbd0; /* accent — soft sakura pink */
+  --gold: #d6a84f; /* muted gold highlight */
+  --paper: #f5f2ea; /* primary text / paper white */
+  --muted: #9ca3af; /* muted text */
+
+  /* ---- Zen spacing rhythm ---------------------------------------- */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+
+  /* ---- Typography ------------------------------------------------- */
+  --font-display: "Antonio", "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  --font-body: "Noto Sans JP", "Zen Kaku Gothic New", sans-serif;
+  --font-jp-sans: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  --font-jp-serif: "Shippori Mincho", "Noto Serif JP", serif;
+
+  /* ---- Effects ---------------------------------------------------- */
+  --glass-bg: rgba(245, 242, 234, 0.04);
+  --glass-border: rgba(245, 242, 234, 0.14);
+  --hairline: rgba(245, 242, 234, 0.12); /* thin Japanese line borders */
+  --glow-crimson: 0 0 28px rgba(230, 57, 70, 0.45);
+  --glow-violet: 0 0 28px rgba(168, 85, 247, 0.4);
+  --glow-sakura: 0 0 22px rgba(248, 187, 208, 0.45);
+  --ease-zen: cubic-bezier(0.22, 1, 0.36, 1);
+}
