@@ -38,10 +38,11 @@ export const seal = "飲";
 /** @type {NavLink[]} */
 export const nav = [
   { label: "ホーム", en: "HOME", href: "#hero" },
-  { label: "フレーバー", en: "FLAVORS", href: "#flavors" },
+  { label: "フレーバー", en: "FLAVOURS", href: "#flavors" },
   { label: "栄養", en: "NUTRITION", href: "#nutrition" },
   { label: "体験", en: "BENEFITS", href: "#benefits" },
-  { label: "お問い合わせ", en: "CONTACT", href: "#contact" },
+  { label: "私たちについて", en: "ABOUT", href: "#/about" },
+  { label: "お問い合わせ", en: "CONTACT", href: "#/contact" },
 ];
 
 export const hero = {

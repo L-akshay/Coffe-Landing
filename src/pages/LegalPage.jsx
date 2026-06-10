@@ -1,21 +1,20 @@
 import { useEffect } from "react";
-import { legalDocs, legalCommon } from "../constants/legal";
+import { legalCommon } from "../constants/legal";
 import { seal, common } from "../constants/content";
 
 /**
- * Standalone legal document page (利用規約 / プライバシーポリシー).
+ * Shared document page layout used for the legal pages (利用規約 /
+ * プライバシーポリシー) and the About page (私たちについて).
  *
- * Rendered outside the GSAP ScrollSmoother experience by the hash router in
- * main.jsx, so it uses ordinary document scroll. `doc` selects which document
- * from legal.js to display ("terms" | "privacy").
+ * Rendered outside the GSAP ScrollSmoother experience by the hash router, so it
+ * uses ordinary document scroll. `data` is a document object (eyebrow, title,
+ * optional `updated`, intro, sections[]).
  */
-const LegalPage = ({ doc }) => {
-  const data = legalDocs[doc] ?? legalDocs.terms;
-
+const LegalPage = ({ data }) => {
   // Always open at the top of the document.
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [doc]);
+  }, [data]);
 
   const goHome = () => {
     window.location.hash = "/";
@@ -47,7 +46,9 @@ const LegalPage = ({ doc }) => {
       <article className="legal-page__doc">
         <p className="legal-page__eyebrow">{data.eyebrow}</p>
         <h1 className="legal-page__title">{data.title}</h1>
-        <p className="legal-page__updated">{data.updated}</p>
+        {data.updated && (
+          <p className="legal-page__updated">{data.updated}</p>
+        )}
 
         <p className="legal-page__intro">{data.intro}</p>
 

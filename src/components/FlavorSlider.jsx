@@ -14,22 +14,28 @@ const FlavorSlider = () => {
         ScrollTrigger.matchMedia({
             // Desktop (horizontal scroll)
             "(min-width: 1025px)": () => {
-                const scrollAmount =
-                    sliderRef.current.scrollWidth - window.innerWidth;
+                const section = document.querySelector(".flavor-section");
+
+                // Translate the section left by exactly its overflow width so the
+                // last flavour card lands flush against the right edge — no extra
+                // padding that would push cards off-screen and hide them.
+                const getScrollAmount = () =>
+                    Math.max(section.scrollWidth - window.innerWidth, 0);
 
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: ".flavor-section",
-                        start: "2% top",
-                        end: `+=${scrollAmount + 1500}px`,
+                        start: "top top",
+                        end: () => `+=${getScrollAmount()}`,
                         scrub: true,
                         pin: true,
+                        invalidateOnRefresh: true,
                     },
                 });
 
                 tl.to(".flavor-section", {
-                    x: `-${scrollAmount + 1500}px`,
-                    ease: "power1.inOut",
+                    x: () => -getScrollAmount(),
+                    ease: "none",
                 });
             },
 
@@ -78,7 +84,7 @@ const FlavorSlider = () => {
                 {flavorlists.map((flavor) => (
                     <div
                         key={flavor.name}
-                        className={`relative z-30 lg:w-[50vw] w-96 lg:h-[70vh] md:w-[90vw] md:h-[50vh] h-80 flex-none ${flavor.rotation}`}
+                        className={`relative z-30 lg:w-[50vw] w-[86vw] lg:h-[70vh] md:w-[90vw] md:h-[50vh] h-80 flex-none ${flavor.rotation}`}
                     >
                         <img
                             src={`/images/${flavor.color}-bg.svg`}

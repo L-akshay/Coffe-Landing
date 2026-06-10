@@ -22,8 +22,11 @@ const App = () => {
     // Respect reduced-motion: keep native scroll, no inertial smoothing/effects.
     if (reduced) return;
     ScrollSmoother.create({
-      smooth: 3,
+      // 3s of inertia read as sluggish/laggy; ~1.2s keeps the smooth feel while
+      // staying responsive to the wheel/trackpad.
+      smooth: 1.2,
       effects: true,
+      normalizeScroll: true,
     });
   }, [reduced]);
 

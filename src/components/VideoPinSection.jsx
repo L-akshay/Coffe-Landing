@@ -46,12 +46,12 @@ const VideoPinSection = () => {
                     aria-hidden="true"
                 />
 
-                <div className="abs-center md:scale-100 scale-200">
+                <div className="abs-center" style={{ transform: isMobile ? "scale(1)" : "scale(1)" }}>
                     <img
                         src="/images/circle-text.svg"
                         alt=""
                         aria-hidden="true"
-                        className="spin-circle"
+                        className="spin-circle md:w-[15vw] w-24"
                     />
                     <button
                         type="button"
@@ -62,7 +62,7 @@ const VideoPinSection = () => {
                             src="/images/play.svg"
                             alt=""
                             aria-hidden="true"
-                            className="size-[3vw] ml-[.5vw]"
+                            className="md:size-[3vw] size-6 md:ml-[.5vw] ml-0.5"
                         />
                     </button>
                 </div>

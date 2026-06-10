@@ -2,8 +2,11 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
 import { flavorTitle } from "../constants/content";
+import { useMediaQuery } from "react-responsive";
 
 const FlavorTitle = () => {
+    const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
+
     useGSAP(() => {
         const firstTextSplit = SplitText.create(".first-text-split h1", {
             type: "chars",
@@ -12,13 +15,17 @@ const FlavorTitle = () => {
             type: "chars",
         });
 
+        // On mobile/tablet the section is not pinned, so use a single
+        // "enters viewport" trigger for all three title elements.
+        const triggerStart = isMobile ? "top 80%" : "top 30%";
+
         gsap.from(firstTextSplit.chars, {
             yPercent: 200,
             stagger: 0.02,
             ease: "power1.inOut",
             scrollTrigger: {
                 trigger: ".flavor-section",
-                start: "top 30%",
+                start: triggerStart,
             },
         });
 
@@ -27,7 +34,7 @@ const FlavorTitle = () => {
             clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
             scrollTrigger: {
                 trigger: ".flavor-section",
-                start: "top 10%",
+                start: triggerStart,
             },
         });
 
@@ -35,12 +42,13 @@ const FlavorTitle = () => {
             yPercent: 200,
             stagger: 0.02,
             ease: "power1.inOut",
+            delay: 0.3,
             scrollTrigger: {
                 trigger: ".flavor-section",
-                start: "top 1%",
+                start: triggerStart,
             },
         });
-    });
+    }, [isMobile]);
 
     return (
         <div className="general-title col-center h-full 2xl:gap-32 xl:gap-24 gap-16">
